@@ -1,0 +1,12 @@
+name: "."
+title: "Interest In Science Fiction Over Time"
+description: |
+  Interest In Science Fiction Over Time
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+output: distill::distill_article

@@ -1,0 +1,126 @@
+---
+title: "TechOrientVisuals"
+author: "Nabiha Rabbani"
+date: "6/20/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(rvest)
+library(httr)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+moviedata <- read_csv(file = "IMDB Movies.csv")
+movieplot <- read_csv("wiki_movie_plots_deduped.csv")
+JPNgdpdata <- read_csv("export.csv")
+CHNgdpdata <- read_csv("exportCHN.csv")
+SGPgdpdata <- read_csv("exportSGP.csv")
+```
+
+```{r num_released}
+moviedata %>% 
+  select(title, year, genre, country) %>% 
+  filter(country == "USA") %>% 
+  filter(str_detect(genre, "Sci-Fi")) %>% 
+  arrange(year) %>% 
+  drop_na(year) %>% 
+  mutate(year = as.character(year)) %>% 
+  group_by(year) %>% 
+  mutate(num_scifi = n()) %>% 
+  select(year, num_scifi) %>%
+  distinct() %>% 
+  ggplot(mapping = aes(x = year,
+                       y = num_scifi))+
+  geom_col()+
+  scale_x_discrete(breaks = c(1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020))+
+  labs(title = "Number of Science Fiction Movies Released in America per Year",
+       subtitle = "Interest in science fiction spikes during the 80s and 90s.",
+       x = "Year",
+       y = "Number of Movies",
+       caption = "Source: IMDB")+
+  theme_minimal()
+```
+
+```{r datasetup}
+moviedata2 <- moviedata %>% 
+  mutate(Title = title)
+keywordplot <- merge(moviedata2, movieplot, by = "Title")
+keywordplot %>% 
+  as_tibble()
+```
+
+
+```{r num-ratings-plotly}
+keywordplotly <- keywordplot %>% 
+  select(title, year, genre, country, votes, description) %>% 
+  filter(country == "USA") %>% 
+  filter(str_detect(genre, "Sci-Fi")) %>% 
+  arrange(year) %>% 
+  drop_na(year) %>% 
+  drop_na(votes) %>% 
+  ggplot(mapping = aes(x = year,
+                       y = votes,
+                       text = paste("Title:", title, "\n", "Plot:", description, "\n", "Year Released:", year)))+
+  geom_point()+
+  geom_jitter()+
+  theme_minimal()+
+  labs(title = "Number of User Ratings",
+       subtitle = "User interest in science fiction increases after the 1980s")
+ggplotly(keywordplotly, tooltip = "text")
+```
+
+
+```{r JPN-GDP}
+JPNgdpdata %>% 
+  mutate(`GDP Per Capita` = `GDP Per Capita` / 1000) %>% 
+  ggplot(mapping = aes(x = label,
+                       y = `GDP Per Capita`))+
+  geom_line()+
+  scale_x_continuous(breaks = c(1960, 1970, 1980, 1990, 2000, 2010, 2020))+
+  labs(title = "Japan's GDP Per Capita (USD)",
+       subtitle = "",
+       x = "Year",
+       y = "GDP Per Capita In Thousands",
+       caption = "Source: The World Bank")+
+  theme_minimal()
+```
+
+```{r CHN-GDP}
+CHNgdpdata%>% 
+  mutate(`GDP Per Capita` = `GDP Per Capita` / 1000) %>% 
+  ggplot(mapping = aes(x = label,
+                       y = `GDP Per Capita`))+
+  geom_line()+
+  scale_x_continuous(breaks = c(1960, 1970, 1980, 1990, 2000, 2010, 2020))+
+  labs(title = "China's GDP Per Capita (USD)",
+       subtitle = "",
+       x = "Year",
+       y = "GDP Per Capita In Thousands",
+       caption = "Source: The World Bank")+
+  theme_minimal()
+```
+
+```{r SGP-GDP}
+SGPgdpdata %>% 
+  mutate(`GDP Per Capita` = `GDP Per Capita` / 1000) %>% 
+  ggplot(mapping = aes(x = label,
+                       y = `GDP Per Capita`))+
+  geom_line()+
+  scale_x_continuous(breaks = c(1960, 1970, 1980, 1990, 2000, 2010, 2020))+
+  labs(title = "Singapore's GDP Per Capita (USD)",
+       subtitle = "",
+       x = "Year",
+       y = "GDP Per Capita In Thousands",
+       caption = "Source: The World Bank")+
+  theme_minimal()
+```
+
+
+

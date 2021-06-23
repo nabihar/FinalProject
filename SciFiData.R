@@ -7,6 +7,8 @@ library(readr)
 moviedata <- read_csv(file = "IMDB Movies.csv")
 
 moviedata %>% 
-  select(title, year, genre, country, description) %>% 
+  select(title, year, genre, country, description, ) %>% 
   filter(country == "USA") %>% 
-  mutate(scifi = str_(genre =="Sci-Fi"))
+  filter(genre == str_detect(genre, "Sci-Fi")) %>% 
+  as_tibble()
+  
