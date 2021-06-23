@@ -6,17 +6,12 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r}
 library(tidyverse)
-library(rvest)
-library(httr)
-library(ggplot2)
 library(plotly)
-library(dplyr)
-
 moviedata <- read_csv(file = "IMDB Movies.csv")
 movieplot <- read_csv("wiki_movie_plots_deduped.csv")
 JPNgdpdata <- read_csv("export.csv")
@@ -69,10 +64,12 @@ keywordplotly <- keywordplot %>%
                        y = votes,
                        text = paste("Title:", title, "\n", "Plot:", description, "\n", "Year Released:", year)))+
   geom_point()+
-  geom_jitter()+
   theme_minimal()+
   labs(title = "Number of User Ratings",
-       subtitle = "User interest in science fiction increases after the 1980s")
+       subtitle = "User interest in science fiction increases after the 1980s.",
+       x = "Year",
+       y = "Number of User Ratings",
+       caption = "Source: IMDB")
 ggplotly(keywordplotly, tooltip = "text")
 ```
 

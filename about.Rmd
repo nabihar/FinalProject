@@ -5,6 +5,10 @@ description: |
 ---
 
 ```{r setup, include=FALSE}
+library(knitr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+# Introduction
+## Background
+##### For many Americans, science fiction invokes find memories of the 80s and 90s, with films like *Star Wars* (1977), *Blade Runner* (1982), and *Alien* (1979) coming to mind. These movies and others often imagine apocalyptic futures and hyper-technological societies, and often draw from East Asian cityscapes for inspiration. Cyborgs and robots in American science fiction are also often modeled after East Asian women, and are depicted as subservient, submissive, and unfeeling. This phenomenon has been dubbed **"Techno Orientalism"**, or the depiction of East Asia as both technologically advanced and intellectually/morally primitive. This project will explore interest in science fiction films over time and compare it to 

@@ -1,18 +1,13 @@
 ---
 title: "Interest In Science Fiction Over Time"
 description: |
-  Welcome to the website. I hope you enjoy it!
+  Measuring Americans' interest in science fiction over time to evaluate if sci-fi is a reaction to Yellow Peril
 site: distill::distill_website
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
-
-# Learn more about publishing to GitHub Pages at:
-# https://rstudio.github.io/distill/publish_website.html#github-pages
-
 ```
 
+# Science Fiction and Techno Orientalism
+####
